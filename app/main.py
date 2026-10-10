@@ -808,6 +808,24 @@ def create_purchase_order(po: PurchaseOrder):
     return invoice_engine.add_purchase_order(po)
 
 
+@app.post('/api/invoice/pos/load-samples')
+def reload_sample_purchase_orders():
+    """Reloads synthetic benchmark purchase orders from reference data file."""
+    count = invoice_engine.reload_sample_purchase_orders(PO_DATA_PATH)
+    return {
+        "status": "ok",
+        "loaded_count": count,
+        "purchase_orders": invoice_engine.list_purchase_orders()
+    }
+
+
+@app.delete('/api/invoice/pos')
+def clear_purchase_orders():
+    """Clears reference purchase orders for testing empty states."""
+    invoice_engine.clear_purchase_orders()
+    return {"status": "ok", "message": "Reference purchase orders cleared."}
+
+
 @app.get('/api/invoice/pos/{po_number}')
 def get_purchase_order(po_number: str):
     """Retrieves a single purchase order by identifier."""
@@ -841,7 +859,7 @@ async def upload_invoice_file(file: UploadFile = File(...)):
 
     raw_bytes = await file.read()
     if len(raw_bytes) == 0:
-        raise HTTPException(400, "Uploaded invoice file is empty.")
+        raise HTTPException(400, "Uploaded invoice file is empty (0 bytes).")
     if len(raw_bytes) > 10 * 1024 * 1024:
         raise HTTPException(400, "File exceeds maximum size limit of 10MB.")
 
@@ -855,6 +873,8 @@ async def upload_invoice_file(file: UploadFile = File(...)):
                 "invoices_evaluated": 1,
                 "results": [result]
             }
+        except HTTPException:
+            raise
         except Exception as e:
             raise HTTPException(400, f"PDF extraction and evaluation failed: {str(e)}")
 
@@ -864,6 +884,8 @@ async def upload_invoice_file(file: UploadFile = File(...)):
             parsed = json.loads(text)
             results = []
             if isinstance(parsed, list):
+                if len(parsed) == 0:
+                    raise HTTPException(400, "Uploaded JSON contains an empty array with no invoice records.")
                 for item in parsed:
                     inv_obj = InvoiceData(**item)
                     res = invoice_engine.evaluate_invoice(inv_obj)
@@ -880,13 +902,17 @@ async def upload_invoice_file(file: UploadFile = File(...)):
                 "invoices_evaluated": len(results),
                 "results": results
             }
+        except HTTPException:
+            raise
         except Exception as e:
             raise HTTPException(400, f"JSON invoice parsing failed: {str(e)}")
 
     elif clean_name.endswith('.csv'):
         try:
             text = raw_bytes.decode('utf-8', errors='replace')
-            reader = csv.DictReader(io.StringIO(text))
+            reader = list(csv.DictReader(io.StringIO(text)))
+            if len(reader) == 0:
+                raise HTTPException(400, "Uploaded CSV file contains no invoice data rows.")
             results = []
             for idx, row in enumerate(reader):
                 inv_num = row.get('invoice_number') or row.get('invoice_id') or f"CSV-INV-{idx+1:03d}"
@@ -913,6 +939,8 @@ async def upload_invoice_file(file: UploadFile = File(...)):
                 "invoices_evaluated": len(results),
                 "results": results
             }
+        except HTTPException:
+            raise
         except Exception as e:
             raise HTTPException(400, f"CSV invoice parsing failed: {str(e)}")
 
@@ -933,10 +961,14 @@ def get_invoice_metrics():
 def export_invoices_csv():
     """Exports evaluated AP invoices as an RFC 4180 CSV document."""
     csv_data = invoice_engine.export_csv()
+    count = len(invoice_engine.evaluated_invoices)
     return Response(
         content=csv_data,
         media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=flowpilot_ap_invoices.csv"}
+        headers={
+            "Content-Disposition": "attachment; filename=flowpilot_ap_invoices.csv",
+            "X-Invoice-Count": str(count)
+        }
     )
 
 
@@ -949,8 +981,13 @@ def export_invoices_json():
 @app.post('/api/invoice/reset')
 def reset_invoice_state():
     """Resets evaluated invoices and duplicate registry in memory."""
+    count_before = len(invoice_engine.evaluated_invoices)
     invoice_engine.reset_state()
-    return {"status": "ok", "message": "AP Invoice engine state has been reset."}
+    return {
+        "status": "ok",
+        "cleared_count": count_before,
+        "message": "AP Invoice engine state has been reset."
+    }
 
 
 @app.post('/api/invoice/load-samples')

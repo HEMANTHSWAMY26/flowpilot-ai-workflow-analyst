@@ -473,3 +473,161 @@ def test_customer_support_benchmark_unaffected():
     assert summary["total"] == 100
     assert summary["accuracy"] == 100.0
     assert summary["unsafe_actions"] == 0
+
+
+# ============================================================================
+# 9. EMPTY STATES & EDGE-CASE ENGINEERING VERIFICATION
+# ============================================================================
+
+def test_empty_invoices_and_metrics_safe():
+    """Verify empty invoice list and metrics return safely with zero counts."""
+    res = client.get('/api/invoice/invoices')
+    assert res.status_code == 200
+    assert res.json() == []
+
+    m_res = client.get('/api/invoice/metrics')
+    assert m_res.status_code == 200
+    m = m_res.json()
+    assert m["total_invoices"] == 0
+    assert m["auto_approved_count"] == 0
+    assert m["total_spend_evaluated"] == 0.0
+
+
+def test_empty_po_ledger_and_sample_reload():
+    """Verify clearing POs produces empty list and reload-samples endpoint restores them."""
+    # Clear POs
+    del_res = client.delete('/api/invoice/pos')
+    assert del_res.status_code == 200
+
+    pos_res = client.get('/api/invoice/pos')
+    assert pos_res.status_code == 200
+    assert pos_res.json() == []
+
+    # Reload synthetic POs
+    reload_res = client.post('/api/invoice/pos/load-samples')
+    assert reload_res.status_code == 200
+    data = reload_res.json()
+    assert data["status"] == "ok"
+    assert data["loaded_count"] == 10
+
+    # Verify restored
+    pos_res2 = client.get('/api/invoice/pos')
+    assert len(pos_res2.json()) == 10
+
+
+def test_empty_csv_and_json_export_safe():
+    """Verify exporting with 0 invoices returns safe empty headers and X-Invoice-Count: 0."""
+    csv_res = client.get('/api/invoice/export/csv')
+    assert csv_res.status_code == 200
+    assert csv_res.headers.get("X-Invoice-Count") == "0"
+    lines = csv_res.text.strip().splitlines()
+    assert len(lines) == 1  # Header row only
+    assert "invoice_id" in lines[0]
+
+    json_res = client.get('/api/invoice/export/json')
+    assert json_res.status_code == 200
+    assert json_res.json() == []
+
+
+def test_reset_empty_and_populated_state():
+    """Verify reset on empty state returns 0 cleared, and on populated state clears correctly."""
+    # Reset empty
+    r1 = client.post('/api/invoice/reset')
+    assert r1.status_code == 200
+    assert r1.json()["cleared_count"] == 0
+
+    # Populate with sample invoices
+    client.post('/api/invoice/load-samples')
+    assert len(client.get('/api/invoice/invoices').json()) == 6
+
+    # Reset populated
+    r2 = client.post('/api/invoice/reset')
+    assert r2.status_code == 200
+    assert r2.json()["cleared_count"] == 6
+
+    # Verify now empty
+    assert len(client.get('/api/invoice/invoices').json()) == 0
+
+
+def test_upload_empty_file_rejected_400():
+    """Verify 0-byte upload file is rejected with 400 and clear message."""
+    empty_file = io.BytesIO(b"")
+    res = client.post(
+        '/api/invoice/upload',
+        files={"file": ("empty_invoice.pdf", empty_file, "application/pdf")}
+    )
+    assert res.status_code == 400
+    assert "empty (0 bytes)" in res.json()["detail"]
+
+
+def test_upload_oversized_file_rejected_400():
+    """Verify >10MB upload is rejected with 400."""
+    big_file = io.BytesIO(b"A" * (10 * 1024 * 1024 + 10))
+    res = client.post(
+        '/api/invoice/upload',
+        files={"file": ("huge_invoice.pdf", big_file, "application/pdf")}
+    )
+    assert res.status_code == 400
+    assert "10MB" in res.json()["detail"]
+
+
+def test_upload_unsupported_extension_rejected_400():
+    """Verify non-PDF/JSON/CSV file extensions are rejected with 400."""
+    exe_file = io.BytesIO(b"MZ12345")
+    res = client.post(
+        '/api/invoice/upload',
+        files={"file": ("invoice.exe", exe_file, "application/octet-stream")}
+    )
+    assert res.status_code == 400
+    assert "Unsupported invoice format" in res.json()["detail"]
+
+
+def test_upload_empty_json_array_rejected_400():
+    """Verify JSON file with empty array [] is rejected with clear message."""
+    empty_json = io.BytesIO(b"[]")
+    res = client.post(
+        '/api/invoice/upload',
+        files={"file": ("empty_batch.json", empty_json, "application/json")}
+    )
+    assert res.status_code == 400
+    assert "empty array with no invoice records" in res.json()["detail"]
+
+
+def test_upload_empty_csv_file_rejected_400():
+    """Verify CSV file with only headers and 0 data rows is rejected with clear message."""
+    empty_csv = io.BytesIO(b"invoice_number,vendor_name,total_amount\n")
+    res = client.post(
+        '/api/invoice/upload',
+        files={"file": ("empty_batch.csv", empty_csv, "text/csv")}
+    )
+    assert res.status_code == 400
+    assert "no invoice data rows" in res.json()["detail"]
+
+
+def test_upload_corrupted_pdf_safe_handling():
+    """Verify malformed PDF bytes evaluate with zero confidence and do not crash."""
+    corrupt_pdf = io.BytesIO(b"%PDF-1.4\n%Malformed junk corrupted data here\n%%EOF")
+    res = client.post(
+        '/api/invoice/upload',
+        files={"file": ("corrupt.pdf", corrupt_pdf, "application/pdf")}
+    )
+    assert res.status_code == 200
+    data = res.json()
+    assert data["invoices_evaluated"] == 1
+    eval_res = data["results"][0]
+    assert eval_res["confidence_score"] == 0.0
+    assert eval_res["system_decision"] in ["FLAG_FOR_REVIEW", "REJECT"]
+
+
+def test_static_html_contains_empty_state_and_edge_case_ui():
+    """Verify frontend static HTML includes empty-state card, modals, and OCR notices."""
+    html_res = client.get('/static/index.html')
+    assert html_res.status_code == 200
+    html = html_res.text
+    assert 'id="ap-empty-state-card"' in html
+    assert 'Start processing invoices' in html
+    assert 'id="modal-reset-confirm"' in html
+    assert 'id="modal-export-empty"' in html
+    assert 'id="ap-staged-box"' in html
+    assert 'Optical Character Recognition (OCR)' in html
+    assert 'id="ap-toast"' in html

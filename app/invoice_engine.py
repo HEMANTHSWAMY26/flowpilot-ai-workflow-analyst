@@ -91,6 +91,20 @@ class InvoiceProcessingEngine:
         with self.lock:
             return list(self.purchase_orders.values())
 
+    def reload_sample_purchase_orders(self, path: Optional[Path] = None) -> int:
+        """Reloads synthetic reference purchase orders from disk."""
+        target_path = path or (Path(__file__).resolve().parent.parent / 'data' / 'synthetic_purchase_orders.json')
+        if target_path and target_path.exists():
+            self.load_purchase_orders_from_file(target_path)
+        with self.lock:
+            return len(self.purchase_orders)
+
+    def clear_purchase_orders(self):
+        """Clears all in-memory purchase orders for testing empty state handling."""
+        with self.lock:
+            self.purchase_orders.clear()
+            logger.info("Reference purchase orders cleared from memory.")
+
     def reset_state(self):
         """Resets evaluated invoices and duplicate registry for test isolation."""
         with self.lock:
