@@ -559,6 +559,227 @@
       .grid-2 { grid-template-columns: 1fr; }
       .detail-grid { grid-template-columns: 1fr; }
     }
+
+    /* ====================================================================== */
+    /* AP INVOICE PROCESSING WORKFLOW STYLES                                  */
+    /* ====================================================================== */
+    .nav-tabs-bar {
+      display: inline-flex;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 8px;
+      gap: 4px;
+    }
+    .nav-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .nav-tab-btn.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .disclaimer-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-left: 4px solid #2563eb;
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: #1e40af;
+      line-height: 1.5;
+    }
+    .disclaimer-banner strong {
+      color: #1e3a8a;
+    }
+    .disclaimer-banner .subtext {
+      font-size: 11px;
+      color: #3b82f6;
+      margin-top: 4px;
+    }
+    .badge-ap-auto {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-ap-flag {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-ap-reject {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-ap-override {
+      background: #ede9fe;
+      color: #6d28d9;
+      border: 1px solid #ddd6fe;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+    .filter-pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-container {
+      background: var(--surface);
+      border-radius: 12px;
+      max-width: 920px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-muted);
+      line-height: 1;
+      padding: 0 4px;
+    }
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .modal-footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: #f8fafc;
+    }
+    .audit-timeline {
+      position: relative;
+      margin-top: 16px;
+      padding-left: 20px;
+      border-left: 2px solid var(--border);
+    }
+    .audit-step {
+      position: relative;
+      margin-bottom: 18px;
+    }
+    .audit-step::before {
+      content: "";
+      position: absolute;
+      left: -26px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #0284c7;
+      border: 2px solid #ffffff;
+    }
+    .audit-step.reviewer::before {
+      background: #8b5cf6;
+    }
+    .audit-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .audit-content {
+      font-size: 13px;
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .check-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      background: var(--surface);
+    }
+    .check-card.pass { border-left: 4px solid #16a34a; }
+    .check-card.fail { border-left: 4px solid #dc2626; background: #fff5f5; }
+    .check-card.warning { border-left: 4px solid #d97706; background: #fffbeb; }
   </style>
 </head>
 <body>
@@ -568,7 +789,13 @@
       <div class="brand-title">FlowPilot</div>
       <div class="brand-subtitle">AI Workflow Analyst</div>
     </div>
-    <div class="badge-tag">Deterministic Policy Engine v1.2</div>
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+      <div class="nav-tabs-bar">
+        <button class="nav-tab-btn active" id="tab-support" onclick="switchWorkflowTab('support')">Customer Support</button>
+        <button class="nav-tab-btn" id="tab-invoices" onclick="switchWorkflowTab('invoices')">AP Invoices Engine</button>
+      </div>
+      <div class="badge-tag">Deterministic Policy Engine v1.2</div>
+    </div>
   </header>
 
   <!-- VIEW 1: HOME -->
@@ -578,7 +805,8 @@
       <p>Analyze unstructured customer requests, extract key entities, enforce deterministic policy boundaries, route exceptions, and measure workflow compliance.</p>
       <div class="btn-group">
         <button class="btn btn-primary" onclick="navigate('sample')">Try Prepared Workflow</button>
-        <button class="btn btn-secondary" onclick="navigate('custom')">Test Your Own Process</button>
+        <button class="btn btn-secondary" onclick="navigate('custom')">Test Custom Ingestion</button>
+        <button class="btn btn-secondary" onclick="navigate('invoices')">AP Invoices Engine</button>
       </div>
     </div>
 
@@ -596,6 +824,17 @@
         <div style="margin-top: 14px;">
           <button class="btn btn-secondary btn-sm" onclick="navigate('custom')">Test Custom Ingestion →</button>
         </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 16px; border-left: 4px solid #0284c7; background: #f0f9ff;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
+        <div>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #0284c7; letter-spacing: 0.05em;">New AP Module</span>
+          <h3 style="margin-top: 4px;">Accounts Payable (AP) Invoice Processing</h3>
+          <p style="margin-bottom: 0;">PDF extraction, 2-way Purchase Order matching, Decimal financial verification, duplicate detection, explainable decisions, and human reviewer audit trail.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="navigate('invoices')">Launch AP Engine →</button>
       </div>
     </div>
   </section>
@@ -836,6 +1075,161 @@
       <div id="upload-result" style="margin-top: 24px;"></div>
     </div>
   </section>
+
+  <!-- VIEW 4: AP INVOICE PROCESSING ENGINE -->
+  <section id="view-invoices" class="hidden">
+    <div class="nav-back" onclick="navigate('home')">← Back to Overview</div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h2 class="section-title">Accounts Payable (AP) Invoice Processing</h2>
+        <p class="section-desc">Deterministic 2-way Purchase Order matching, Decimal financial verification, duplicate detection, explainable decisions, and human reviewer audit trail.</p>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn btn-secondary btn-sm" onclick="openPurchaseOrdersModal()">View Reference POs (10)</button>
+        <button class="btn btn-secondary btn-sm" onclick="exportInvoiceCSV()">Export AP (CSV)</button>
+        <button class="btn btn-secondary btn-sm" onclick="exportInvoiceJSON()">Export AP (JSON)</button>
+        <button class="btn btn-secondary btn-sm" onclick="resetInvoiceEngine()" style="color: #991b1b;">Reset AP State</button>
+      </div>
+    </div>
+
+    <!-- MANDATORY AP POLICY NOTICE & PERSISTENCE DISCLAIMER -->
+    <div class="disclaimer-banner">
+      <div style="display: flex; align-items: flex-start; gap: 10px;">
+        <span style="font-size: 18px;">⚠️</span>
+        <div>
+          <strong>Accounts Payable Regulatory & Policy Safeguard:</strong>
+          <div>FlowPilot is an automated AP evaluation and policy decision-support engine. An <strong>AUTO_APPROVE</strong> decision signifies that the invoice meets all 2-way PO matching rules, arithmetic integrity, and duplicate checks, making it <strong>strictly eligible for the next accounts-payable review/staging step</strong>. FlowPilot <u>never executes payments</u> and has no integration with banking or payment APIs.</div>
+          <div class="subtext">ℹ️ <em>Session State: In-memory persistence. Evaluated records and reviewer overrides persist during the active server session and reset upon server restart.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REAL-TIME AP METRICS DASHBOARD -->
+    <div class="metrics-grid" style="margin-bottom: 24px;">
+      <div class="metric-card">
+        <div class="metric-val" id="ap-m-total">0</div>
+        <div class="metric-label">Total Invoices</div>
+        <div class="metric-sub" id="ap-m-total-sub">Processed in AP session</div>
+      </div>
+      <div class="metric-card highlight-safe">
+        <div class="metric-val" id="ap-m-auto" style="color: #15803d;">0</div>
+        <div class="metric-label">Auto-Approved</div>
+        <div class="metric-sub" id="ap-m-auto-rate">Eligible for AP next step (0%)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val" id="ap-m-flagged" style="color: #b45309;">0</div>
+        <div class="metric-label">Flagged for Review</div>
+        <div class="metric-sub" id="ap-m-flagged-rate">Exceptions & Discrepancies (0%)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val" id="ap-m-rejected" style="color: #b91c1c;">0</div>
+        <div class="metric-label">Rejected</div>
+        <div class="metric-sub" id="ap-m-rejected-rate">Hard Policy Violations (0%)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val" id="ap-m-overrides" style="color: #6d28d9;">0</div>
+        <div class="metric-label">Reviewer Overrides</div>
+        <div class="metric-sub">Analyst overrides recorded</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val" id="ap-m-spend">$0.00</div>
+        <div class="metric-label">Total Spend Analyzed</div>
+        <div class="metric-sub" id="ap-m-conf">Avg Confidence: --</div>
+      </div>
+    </div>
+
+    <!-- INVOICE INGESTION & BATCH ACTIONS -->
+    <div class="card" style="margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+        <h3 style="font-size: 16px;">Invoice Document Ingestion</h3>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-primary btn-sm" id="btn-load-sample-invoices" onclick="loadSampleInvoices()">Load Benchmark Sample Invoices (6 PDFs)</button>
+          <label class="btn btn-secondary btn-sm" style="cursor: pointer; margin-bottom: 0;">
+            Upload Invoice (PDF / JSON / CSV)
+            <input type="file" id="ap-file-input" accept=".pdf,.json,.csv" style="display: none;" onchange="handleInvoiceUpload(this.files)">
+          </label>
+        </div>
+      </div>
+      <!-- INVOICE DROPZONE -->
+      <div id="ap-file-dropzone" class="dropzone">
+        <div class="dropzone-icon">📄</div>
+        <div class="dropzone-title">Drop Commercial Invoice PDF, JSON, or CSV here</div>
+        <div class="dropzone-desc">Supports commercial invoices, service billings, credit notes, and structured JSON/CSV batches (Max 10MB)</div>
+      </div>
+      <div id="ap-upload-status" style="margin-top: 10px; font-size: 13px; color: var(--text-muted);"></div>
+    </div>
+
+    <!-- FILTER PILLS -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <div class="filter-pills">
+        <button class="filter-pill active" id="pill-all" onclick="filterInvoicesTable('ALL')">All Invoices</button>
+        <button class="filter-pill" id="pill-auto" onclick="filterInvoicesTable('AUTO_APPROVE')">Auto-Approved</button>
+        <button class="filter-pill" id="pill-flagged" onclick="filterInvoicesTable('FLAG_FOR_REVIEW')">Flagged for Review</button>
+        <button class="filter-pill" id="pill-rejected" onclick="filterInvoicesTable('REJECT')">Rejected</button>
+        <button class="filter-pill" id="pill-overridden" onclick="filterInvoicesTable('OVERRIDDEN')">Reviewer Overridden</button>
+      </div>
+      <div style="font-size: 12px; color: var(--text-muted);" id="ap-table-count">Showing 0 invoices</div>
+    </div>
+
+    <!-- INVOICES DATA TABLE -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 130px;">Invoice #</th>
+            <th>Vendor Name</th>
+            <th style="width: 100px;">PO Ref</th>
+            <th style="width: 110px;">Amount</th>
+            <th style="width: 90px;">Confidence</th>
+            <th style="width: 140px;">System Decision</th>
+            <th style="width: 150px;">Final Status</th>
+            <th style="width: 90px;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="ap-invoices-table-body">
+          <tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">No invoices evaluated yet. Click "Load Benchmark Sample Invoices" or upload an invoice above.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- MODAL 1: INVOICE INSPECTION & REVIEW OVERRIDE -->
+  <div id="modal-invoice-detail" class="modal-overlay hidden" onclick="if(event.target===this) closeModal('modal-invoice-detail')">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="m-inv-title">Invoice Inspector & Audit</div>
+          <div style="font-size: 12px; color: var(--text-muted);" id="m-inv-sub">ID: --</div>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-invoice-detail')">&times;</button>
+      </div>
+      <div class="modal-body" id="m-inv-body">
+        <!-- Dynamically injected inspection content -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-invoice-detail')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: PURCHASE ORDERS REFERENCE LEDGER -->
+  <div id="modal-pos" class="modal-overlay hidden" onclick="if(event.target===this) closeModal('modal-pos')">
+    <div class="modal-container" style="max-width: 860px;">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">Reference Purchase Order (PO) Ledger</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Contracted commitments, status tags, and authorized pricing limits</div>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-pos')">&times;</button>
+      </div>
+      <div class="modal-body" id="m-pos-body">
+        <!-- Dynamically populated PO table -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-pos')">Close</button>
+      </div>
+    </div>
+  </div>
 </main>
 
 <script>
@@ -849,6 +1243,30 @@
     document.getElementById('view-home').classList.toggle('hidden', viewId !== 'home');
     document.getElementById('view-sample').classList.toggle('hidden', viewId !== 'sample');
     document.getElementById('view-custom').classList.toggle('hidden', viewId !== 'custom');
+    const invEl = document.getElementById('view-invoices');
+    if (invEl) invEl.classList.toggle('hidden', viewId !== 'invoices');
+
+    const tabSupport = document.getElementById('tab-support');
+    const tabInvoices = document.getElementById('tab-invoices');
+    if (tabSupport && tabInvoices) {
+      if (viewId === 'invoices') {
+        tabSupport.classList.remove('active');
+        tabInvoices.classList.add('active');
+        loadInvoiceMetrics();
+        loadInvoicesTable();
+      } else {
+        tabSupport.classList.add('active');
+        tabInvoices.classList.remove('active');
+      }
+    }
+  }
+
+  function switchWorkflowTab(tabId) {
+    if (tabId === 'invoices') {
+      navigate('invoices');
+    } else {
+      navigate('home');
+    }
   }
 
   function getBadgeClass(decision) {
@@ -1650,6 +2068,461 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+
+  // ============================================================================
+  // OBJECTIVE 5: AP INVOICE PROCESSING ENGINE LOGIC
+  // ============================================================================
+  let currentInvoicesList = [];
+  let currentFilter = 'ALL';
+
+  // Wire invoice dropzone
+  const apDropzone = document.getElementById('ap-file-dropzone');
+  if (apDropzone) {
+    apDropzone.addEventListener('dragover', (e) => { e.preventDefault(); apDropzone.classList.add('dragover'); });
+    apDropzone.addEventListener('dragleave', () => { apDropzone.classList.remove('dragover'); });
+    apDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      apDropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleInvoiceUpload(e.dataTransfer.files);
+      }
+    });
+  }
+
+  async function loadInvoiceMetrics() {
+    try {
+      const res = await fetch('/api/invoice/metrics');
+      if (!res.ok) return;
+      const m = await res.json();
+      document.getElementById('ap-m-total').innerText = m.total_invoices;
+      document.getElementById('ap-m-auto').innerText = m.auto_approved_count;
+      document.getElementById('ap-m-auto-rate').innerText = `Eligible for AP next step (${m.auto_approve_rate_pct}%)`;
+      document.getElementById('ap-m-flagged').innerText = m.flagged_for_review_count;
+      document.getElementById('ap-m-flagged-rate').innerText = `Exceptions & Discrepancies (${m.flagged_rate_pct}%)`;
+      document.getElementById('ap-m-rejected').innerText = m.rejected_count;
+      document.getElementById('ap-m-rejected-rate').innerText = `Hard Policy Violations (${m.rejection_rate_pct}%)`;
+      document.getElementById('ap-m-overrides').innerText = m.reviewer_overrides_count;
+      document.getElementById('ap-m-spend').innerText = '$' + (m.total_spend_evaluated || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('ap-m-conf').innerText = `Avg Confidence: ${m.average_confidence != null ? Math.round(m.average_confidence * 100) + '%' : '--'}`;
+    } catch (e) {
+      console.error("Failed to load invoice metrics:", e);
+    }
+  }
+
+  async function loadInvoicesTable() {
+    try {
+      const res = await fetch('/api/invoice/invoices');
+      if (!res.ok) return;
+      currentInvoicesList = await res.json();
+      renderInvoicesTable();
+    } catch (e) {
+      console.error("Failed to load invoices list:", e);
+    }
+  }
+
+  function filterInvoicesTable(filter) {
+    currentFilter = filter;
+    ['all', 'auto', 'flagged', 'rejected', 'overridden'].forEach(f => {
+      const el = document.getElementById(`pill-${f}`);
+      if (el) el.classList.remove('active');
+    });
+    const map = { 'ALL': 'all', 'AUTO_APPROVE': 'auto', 'FLAG_FOR_REVIEW': 'flagged', 'REJECT': 'rejected', 'OVERRIDDEN': 'overridden' };
+    const activeEl = document.getElementById(`pill-${map[filter] || 'all'}`);
+    if (activeEl) activeEl.classList.add('active');
+    renderInvoicesTable();
+  }
+
+  function renderInvoicesTable() {
+    const tbody = document.getElementById('ap-invoices-table-body');
+    const countEl = document.getElementById('ap-table-count');
+
+    let filtered = currentInvoicesList;
+    if (currentFilter === 'AUTO_APPROVE') {
+      filtered = currentInvoicesList.filter(i => i.system_decision === 'AUTO_APPROVE');
+    } else if (currentFilter === 'FLAG_FOR_REVIEW') {
+      filtered = currentInvoicesList.filter(i => i.system_decision === 'FLAG_FOR_REVIEW');
+    } else if (currentFilter === 'REJECT') {
+      filtered = currentInvoicesList.filter(i => i.system_decision === 'REJECT');
+    } else if (currentFilter === 'OVERRIDDEN') {
+      filtered = currentInvoicesList.filter(i => i.final_status !== i.system_decision);
+    }
+
+    countEl.innerText = `Showing ${filtered.length} of ${currentInvoicesList.length} invoices`;
+
+    if (!filtered || filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">No matching invoices found.</td></tr>`;
+      return;
+    }
+
+    let rowsHtml = '';
+    filtered.forEach(inv => {
+      const isOverridden = inv.final_status !== inv.system_decision;
+      let decBadge = '';
+      if (inv.system_decision === 'AUTO_APPROVE') {
+        decBadge = `<span class="badge-ap-auto" title="Eligible for next AP step">AUTO_APPROVE</span>`;
+      } else if (inv.system_decision === 'FLAG_FOR_REVIEW') {
+        decBadge = `<span class="badge-ap-flag" title="Flagged for human review">FLAG_FOR_REVIEW</span>`;
+      } else {
+        decBadge = `<span class="badge-ap-reject" title="Policy violation rejection">REJECT</span>`;
+      }
+
+      let statusBadge = '';
+      if (isOverridden) {
+        statusBadge = `<span class="badge-ap-override" title="Overridden by analyst">✍ ${escapeHtml(inv.final_status)}</span>`;
+      } else {
+        statusBadge = decBadge;
+      }
+
+      const confPct = Math.round((inv.confidence_score || 1.0) * 100);
+      const confColor = confPct >= 80 ? '#15803d' : (confPct >= 50 ? '#b45309' : '#b91c1c');
+
+      rowsHtml += `
+        <tr>
+          <td style="font-family: monospace; font-weight: 700;">${escapeHtml(inv.invoice_number)}</td>
+          <td>
+            <div style="font-weight: 600;">${escapeHtml(inv.vendor_name)}</div>
+            <div style="font-size: 11px; color: var(--text-muted);">${inv.discrepancies && inv.discrepancies.length > 0 ? `${inv.discrepancies.length} discrepancy signal(s)` : 'Clean matching'}</div>
+          </td>
+          <td><span style="font-family: monospace; font-size: 12px; color: var(--text-muted);">${inv.po_number ? escapeHtml(inv.po_number) : '<em style="color:#b45309;">None</em>'}</span></td>
+          <td style="font-weight: 600;">$${(inv.total_amount || 0).toLocaleString(undefined, {minimumFractionDigits: 2})} <span style="font-size: 11px; color: var(--text-muted);">${escapeHtml(inv.currency || 'USD')}</span></td>
+          <td><span style="font-weight: 600; color: ${confColor};">${confPct}%</span></td>
+          <td>${decBadge}</td>
+          <td>${statusBadge}</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="inspectInvoice('${inv.invoice_id}')">Inspect →</button>
+          </td>
+        </tr>
+      `;
+    });
+    tbody.innerHTML = rowsHtml;
+  }
+
+  async function loadSampleInvoices() {
+    const btn = document.getElementById('btn-load-sample-invoices');
+    const statusEl = document.getElementById('ap-upload-status');
+    btn.disabled = true;
+    btn.innerText = 'Evaluating 6 Sample Invoices…';
+    statusEl.innerText = 'Extracting text and evaluating sample invoices against PO ledger…';
+
+    try {
+      const res = await fetch('/api/invoice/load-samples', { method: 'POST' });
+      const data = await res.json();
+      statusEl.innerHTML = `<span style="color: #15803d; font-weight: 600;">✓ Successfully evaluated ${data.loaded_count} benchmark invoices.</span>`;
+      await loadInvoiceMetrics();
+      await loadInvoicesTable();
+    } catch (e) {
+      statusEl.innerHTML = `<span style="color: #b91c1c;">Error loading samples: ${escapeHtml(e.message)}</span>`;
+    } finally {
+      btn.disabled = false;
+      btn.innerText = 'Load Benchmark Sample Invoices (6 PDFs)';
+    }
+  }
+
+  async function handleInvoiceUpload(files) {
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    const statusEl = document.getElementById('ap-upload-status');
+    statusEl.innerText = `Uploading and processing '${file.name}'…`;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/invoice/upload', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (!res.ok) {
+        statusEl.innerHTML = `<span style="color: #b91c1c;">Upload error: ${escapeHtml(data.detail || 'Failed to process invoice')}</span>`;
+        return;
+      }
+      statusEl.innerHTML = `<span style="color: #15803d; font-weight: 600;">✓ Successfully processed '${escapeHtml(file.name)}' (${data.invoices_evaluated} invoice(s) evaluated).</span>`;
+      await loadInvoiceMetrics();
+      await loadInvoicesTable();
+      if (data.results && data.results.length === 1) {
+        inspectInvoice(data.results[0].invoice_id);
+      }
+    } catch (e) {
+      statusEl.innerHTML = `<span style="color: #b91c1c;">Network error: ${escapeHtml(e.message)}</span>`;
+    }
+  }
+
+  async function inspectInvoice(invoiceId) {
+    const body = document.getElementById('m-inv-body');
+    const title = document.getElementById('m-inv-title');
+    const sub = document.getElementById('m-inv-sub');
+    body.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);">Loading invoice evaluation details…</div>';
+    document.getElementById('modal-invoice-detail').classList.remove('hidden');
+
+    try {
+      const res = await fetch(`/api/invoice/${invoiceId}`);
+      if (!res.ok) {
+        body.innerHTML = '<div style="color: #b91c1c;">Failed to load invoice details.</div>';
+        return;
+      }
+      const inv = await res.json();
+      title.innerText = `Invoice: ${inv.invoice_number} (${inv.vendor_name})`;
+      sub.innerText = `Evaluation Reference: ${inv.invoice_id} | Staged At: ${new Date(inv.evaluated_at).toLocaleString()}`;
+
+      const checks = inv.checks || {};
+      const auditTrail = inv.audit_trail || [];
+      const poData = inv.po_data;
+
+      let checksHtml = '';
+      for (const [k, c] of Object.entries(checks)) {
+        const passed = c.passed;
+        const cardClass = passed ? 'pass' : (c.status === 'WARNING' || c.status === 'MISSING_PO' ? 'warning' : 'fail');
+        const icon = passed ? '✓' : (cardClass === 'warning' ? '⚠' : '✗');
+        checksHtml += `
+          <div class="check-card ${cardClass}">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 13px;">${icon} ${escapeHtml(k.replace(/_/g, ' ').toUpperCase())}</strong>
+              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase;">${c.status || (passed ? 'PASS' : 'FAIL')}</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">${escapeHtml(c.message || (c.errors ? c.errors.join('; ') : 'Check completed successfully.'))}</div>
+          </div>
+        `;
+      }
+
+      let lineItemsHtml = '';
+      const items = (inv.invoice_data && inv.invoice_data.line_items) || [];
+      if (items.length > 0) {
+        lineItemsHtml = `
+          <div style="margin-top: 14px;">
+            <strong style="font-size: 13px;">Invoiced Line Items (${items.length}):</strong>
+            <div class="table-container" style="margin-top: 6px;">
+              <table>
+                <thead><tr><th>#</th><th>Description</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
+                <tbody>
+                  ${items.map(it => `
+                    <tr>
+                      <td>${it.line_number}</td>
+                      <td>${escapeHtml(it.description)}</td>
+                      <td>${it.quantity}</td>
+                      <td>$${Number(it.unit_price).toFixed(2)}</td>
+                      <td style="font-weight: 600;">$${Number(it.total_price).toFixed(2)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }
+
+      let poComparisonHtml = '';
+      if (poData) {
+        poComparisonHtml = `
+          <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <strong style="font-size: 13px;">Reference Purchase Order: ${escapeHtml(poData.po_number)}</strong>
+              <span class="badge" style="background: ${poData.status==='OPEN'?'#dcfce7':'#fee2e2'}; color: ${poData.status==='OPEN'?'#15803d':'#b91c1c'}; font-weight: 700;">Status: ${poData.status}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px;">
+              <div><strong>Vendor on PO:</strong> ${escapeHtml(poData.vendor_name)}</div>
+              <div><strong>Contracted Total:</strong> $${Number(poData.total_amount).toFixed(2)} ${escapeHtml(poData.currency)}</div>
+            </div>
+          </div>
+        `;
+      } else {
+        poComparisonHtml = `
+          <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; margin-top: 16px; font-size: 12px; color: #92400e;">
+            <strong>No Matching PO in Ledger:</strong> This document was evaluated as a direct non-PO invoice or referenced an uncontracted PO number.
+          </div>
+        `;
+      }
+
+      let auditTimelineHtml = '';
+      if (auditTrail.length > 0) {
+        auditTimelineHtml = `
+          <div style="margin-top: 20px;">
+            <strong style="font-size: 13px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em;">Immutable Audit Trail (${auditTrail.length} Event(s))</strong>
+            <div class="audit-timeline">
+              ${auditTrail.map(a => `
+                <div class="audit-step ${a.reviewer_id === 'FLOWPILOT_POLICY_ENGINE' ? '' : 'reviewer'}">
+                  <div class="audit-header">
+                    <strong>${escapeHtml(a.reviewer_id)}</strong>
+                    <span>${new Date(a.timestamp).toLocaleString()}</span>
+                  </div>
+                  <div class="audit-content">
+                    <div><strong>Action:</strong> <span style="font-weight: 700;">${escapeHtml(a.action)}</span> | <strong>Transition:</strong> ${escapeHtml(a.previous_status)} → <strong>${escapeHtml(a.new_status)}</strong></div>
+                    <div style="margin-top: 4px; color: var(--text-muted);"><strong>Rationale:</strong> ${escapeHtml(a.rationale)}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      body.innerHTML = `
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div style="background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 12px; color: var(--text-muted);">System Policy Decision</div>
+            <div style="font-size: 20px; font-weight: 800; margin: 4px 0;">${escapeHtml(inv.system_decision)}</div>
+            <div style="font-size: 11px; color: #1e40af;"><strong>Notice:</strong> ${escapeHtml(inv.payment_disclaimer)}</div>
+          </div>
+          <div style="background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 12px; color: var(--text-muted);">Current Review Status</div>
+            <div style="font-size: 18px; font-weight: 800; margin: 4px 0; color: ${inv.final_status !== inv.system_decision ? '#6d28d9' : 'inherit'};">${escapeHtml(inv.final_status)}</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Risk: <strong>${escapeHtml(inv.risk_level)}</strong> | Confidence: <strong>${Math.round((inv.confidence_score||1)*100)}%</strong></div>
+          </div>
+        </div>
+
+        <h4 style="font-size: 14px; margin-bottom: 8px;">5-Point Automated Policy Checks</h4>
+        ${checksHtml}
+
+        ${lineItemsHtml}
+        ${poComparisonHtml}
+
+        <!-- HUMAN REVIEWER OVERRIDE PANEL -->
+        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 16px; margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong style="font-size: 14px; color: #6b21a8;">Human Reviewer Decision & Action Panel</strong>
+            <span style="font-size: 11px; color: #7e22ce;">Original system decision remains immutable</span>
+          </div>
+          <p style="font-size: 12px; color: #581c87; margin-bottom: 12px;">Authorized AP analysts can override policy flags, confirm price exceptions, or request vendor clarification. All actions are indelibly recorded in the audit history.</p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Reviewer Identity / Staff ID:</label>
+              <input type="text" id="rev-id-input" placeholder="e.g. AP_ANALYST_01" value="AP_ANALYST_01" style="padding: 8px; font-size: 13px;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Action to Apply:</label>
+              <select id="rev-action-select" style="width: 100%; padding: 8px; border: 1px solid var(--border-dark); border-radius: 6px; font-size: 13px; background: var(--surface);">
+                <option value="APPROVE">Approve for AP Staging (Override Policy Flag)</option>
+                <option value="REJECT">Reject Invoice (Confirm Policy Failure)</option>
+                <option value="REQUEST_INFO">Request Vendor Information / Clarification</option>
+                <option value="OVERRIDE_MATCH">Override PO Mismatch (Manager Sign-Off)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Mandatory Audit Rationale / Justification:</label>
+            <textarea id="rev-rationale-input" style="min-height: 70px; padding: 8px; font-size: 13px;" placeholder="Document the specific operational justification for this decision (required for financial audit)..."></textarea>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="submitReviewAction('${inv.invoice_id}')">Record Reviewer Action & Update Audit Trail</button>
+          <span id="rev-submit-status" style="margin-left: 10px; font-size: 12px;"></span>
+        </div>
+
+        ${auditTimelineHtml}
+      `;
+    } catch (e) {
+      body.innerHTML = `<div style="color: #b91c1c;">Error loading invoice detail: ${escapeHtml(e.message)}</div>`;
+    }
+  }
+
+  async function submitReviewAction(invoiceId) {
+    const revId = document.getElementById('rev-id-input').value.trim();
+    const action = document.getElementById('rev-action-select').value;
+    const rationale = document.getElementById('rev-rationale-input').value.trim();
+    const statusEl = document.getElementById('rev-submit-status');
+
+    if (!revId) {
+      alert("Please provide a Reviewer Staff ID.");
+      return;
+    }
+    if (!rationale || rationale.length < 5) {
+      alert("Please provide a detailed audit rationale (at least 5 characters).");
+      return;
+    }
+
+    statusEl.innerHTML = '<span style="color: #6b21a8;">Recording action…</span>';
+
+    try {
+      const res = await fetch(`/api/invoice/${invoiceId}/review`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewer_id: revId, action: action, rationale: rationale })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        statusEl.innerHTML = `<span style="color: #b91c1c;">Error: ${escapeHtml(data.detail || 'Failed to apply review')}</span>`;
+        return;
+      }
+      statusEl.innerHTML = '<span style="color: #15803d; font-weight: 700;">✓ Action recorded! Refreshing audit trail…</span>';
+      await loadInvoiceMetrics();
+      await loadInvoicesTable();
+      setTimeout(() => { inspectInvoice(invoiceId); }, 400);
+    } catch (e) {
+      statusEl.innerHTML = `<span style="color: #b91c1c;">Network error: ${escapeHtml(e.message)}</span>`;
+    }
+  }
+
+  async function openPurchaseOrdersModal() {
+    const body = document.getElementById('m-pos-body');
+    body.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);">Loading Purchase Orders…</div>';
+    document.getElementById('modal-pos').classList.remove('hidden');
+
+    try {
+      const res = await fetch('/api/invoice/pos');
+      const pos = await res.json();
+
+      let html = `
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 110px;">PO Number</th>
+                <th>Contracted Vendor</th>
+                <th style="width: 90px;">Currency</th>
+                <th style="width: 120px;">Amount</th>
+                <th style="width: 100px;">Status</th>
+                <th>Line Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${pos.map(p => `
+                <tr>
+                  <td style="font-family: monospace; font-weight: 700;">${escapeHtml(p.po_number)}</td>
+                  <td><strong>${escapeHtml(p.vendor_name)}</strong></td>
+                  <td>${escapeHtml(p.currency)}</td>
+                  <td style="font-weight: 600;">$${Number(p.total_amount).toFixed(2)}</td>
+                  <td>
+                    <span class="badge" style="background: ${p.status==='OPEN'?'#dcfce7':(p.status==='CLOSED'?'#fee2e2':'#fef3c7')}; color: ${p.status==='OPEN'?'#15803d':(p.status==='CLOSED'?'#b91c1c':'#b45309')}; font-weight: 700;">
+                      ${escapeHtml(p.status)}
+                    </span>
+                  </td>
+                  <td style="font-size: 11px; color: var(--text-muted);">
+                    ${p.line_items ? p.line_items.map(l => `${escapeHtml(l.description)} (x${l.quantity})`).join(', ') : 'None'}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      body.innerHTML = html;
+    } catch (e) {
+      body.innerHTML = `<div style="color: #b91c1c;">Error loading POs: ${escapeHtml(e.message)}</div>`;
+    }
+  }
+
+  function closeModal(modalId) {
+    const m = document.getElementById(modalId);
+    if (m) m.classList.add('hidden');
+  }
+
+  function exportInvoiceCSV() {
+    window.open('/api/invoice/export/csv', '_blank');
+  }
+
+  function exportInvoiceJSON() {
+    window.open('/api/invoice/export/json', '_blank');
+  }
+
+  async function resetInvoiceEngine() {
+    if (!confirm("Are you sure you want to reset the in-memory AP invoice processing state? This will clear all evaluated invoices and duplicate tracking.")) return;
+    try {
+      await fetch('/api/invoice/reset', { method: 'POST' });
+      await loadInvoiceMetrics();
+      await loadInvoicesTable();
+      alert("AP session reset successfully.");
+    } catch (e) {
+      alert("Reset failed: " + e.message);
+    }
   }
 </script>
 </body>

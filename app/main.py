@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from pathlib import Path
@@ -11,6 +11,11 @@ from app.jobs import (
     create_job, update_job_stage, update_job_progress,
     complete_job, fail_job, get_job_status, add_job_log
 )
+from app.invoice_schemas import (
+    InvoiceData, PurchaseOrder, ReviewerActionRequest,
+    InvoiceEvaluationResult, ToleranceConfig
+)
+from app.invoice_engine import InvoiceProcessingEngine
 
 # Third-party excel parser
 try:
@@ -21,6 +26,10 @@ except ImportError:
 BASE = Path(__file__).resolve().parent
 ROOT = BASE.parent
 DATA_PATH = ROOT / 'data' / 'evaluation_100.json'
+PO_DATA_PATH = ROOT / 'data' / 'synthetic_purchase_orders.json'
+
+# Initialize AP Invoice Processing Engine
+invoice_engine = InvoiceProcessingEngine(PO_DATA_PATH)
 
 app = FastAPI(
     title='FlowPilot',
@@ -781,6 +790,223 @@ async def custom_upload(file: UploadFile = File(...)):
         'summary': decisions_summary,
         'sample_results': evaluated_records[:10]
     }
+
+
+# ============================================================================
+# AP INVOICE PROCESSING WORKFLOW ENGINE ENDPOINTS
+# ============================================================================
+
+@app.get('/api/invoice/pos')
+def list_purchase_orders():
+    """Lists all synthetic reference purchase orders."""
+    return invoice_engine.list_purchase_orders()
+
+
+@app.post('/api/invoice/pos')
+def create_purchase_order(po: PurchaseOrder):
+    """Registers a purchase order into the reference ledger."""
+    return invoice_engine.add_purchase_order(po)
+
+
+@app.get('/api/invoice/pos/{po_number}')
+def get_purchase_order(po_number: str):
+    """Retrieves a single purchase order by identifier."""
+    po = invoice_engine.get_purchase_order(po_number)
+    if not po:
+        raise HTTPException(404, f"Purchase order '{po_number}' not found.")
+    return po
+
+
+@app.post('/api/invoice/evaluate')
+def evaluate_invoice_direct(invoice: InvoiceData):
+    """Directly evaluates a structured invoice against policy rules and PO ledger."""
+    try:
+        res = invoice_engine.evaluate_invoice(invoice)
+        return res
+    except Exception as e:
+        raise HTTPException(400, f"Invoice evaluation failed: {str(e)}")
+
+
+@app.post('/api/invoice/upload')
+async def upload_invoice_file(file: UploadFile = File(...)):
+    """
+    Accepts PDF, JSON, or CSV invoice file uploads.
+    Extracts structured fields, matches against PO ledger, performs financial
+    validation, and generates explainable decisions.
+    """
+    filename = (file.filename or '').strip()
+    clean_name = filename.lower()
+    if not clean_name.endswith(('.pdf', '.json', '.csv')):
+        raise HTTPException(400, "Unsupported invoice format. Supported formats: PDF, JSON, CSV.")
+
+    raw_bytes = await file.read()
+    if len(raw_bytes) == 0:
+        raise HTTPException(400, "Uploaded invoice file is empty.")
+    if len(raw_bytes) > 10 * 1024 * 1024:
+        raise HTTPException(400, "File exceeds maximum size limit of 10MB.")
+
+    if clean_name.endswith('.pdf'):
+        try:
+            invoice_data = invoice_engine.extract_from_pdf_bytes(raw_bytes, filename)
+            result = invoice_engine.evaluate_invoice(invoice_data)
+            return {
+                "format": "PDF",
+                "filename": filename,
+                "invoices_evaluated": 1,
+                "results": [result]
+            }
+        except Exception as e:
+            raise HTTPException(400, f"PDF extraction and evaluation failed: {str(e)}")
+
+    elif clean_name.endswith('.json'):
+        try:
+            text = raw_bytes.decode('utf-8')
+            parsed = json.loads(text)
+            results = []
+            if isinstance(parsed, list):
+                for item in parsed:
+                    inv_obj = InvoiceData(**item)
+                    res = invoice_engine.evaluate_invoice(inv_obj)
+                    results.append(res)
+            elif isinstance(parsed, dict):
+                inv_obj = InvoiceData(**parsed)
+                res = invoice_engine.evaluate_invoice(inv_obj)
+                results.append(res)
+            else:
+                raise ValueError("JSON must contain an invoice object or array of invoice objects.")
+            return {
+                "format": "JSON",
+                "filename": filename,
+                "invoices_evaluated": len(results),
+                "results": results
+            }
+        except Exception as e:
+            raise HTTPException(400, f"JSON invoice parsing failed: {str(e)}")
+
+    elif clean_name.endswith('.csv'):
+        try:
+            text = raw_bytes.decode('utf-8', errors='replace')
+            reader = csv.DictReader(io.StringIO(text))
+            results = []
+            for idx, row in enumerate(reader):
+                inv_num = row.get('invoice_number') or row.get('invoice_id') or f"CSV-INV-{idx+1:03d}"
+                vendor = row.get('vendor_name') or row.get('vendor') or "Unknown Vendor"
+                po_num = row.get('po_number') or row.get('po') or None
+                tot_val = float(row.get('total_amount') or row.get('total') or row.get('amount') or 0.0)
+                sub_val = float(row.get('subtotal') or tot_val)
+                tax_val = float(row.get('tax_amount') or row.get('tax') or 0.0)
+                curr_val = (row.get('currency') or 'USD').strip().upper()
+                inv_obj = InvoiceData(
+                    invoice_number=inv_num,
+                    vendor_name=vendor,
+                    po_number=po_num,
+                    currency=curr_val,
+                    subtotal=sub_val,
+                    tax_amount=tax_val,
+                    total_amount=tot_val
+                )
+                res = invoice_engine.evaluate_invoice(inv_obj)
+                results.append(res)
+            return {
+                "format": "CSV",
+                "filename": filename,
+                "invoices_evaluated": len(results),
+                "results": results
+            }
+        except Exception as e:
+            raise HTTPException(400, f"CSV invoice parsing failed: {str(e)}")
+
+
+@app.get('/api/invoice/invoices')
+def list_evaluated_invoices():
+    """Returns all evaluated invoices in the current AP session."""
+    return invoice_engine.list_invoices()
+
+
+@app.get('/api/invoice/metrics')
+def get_invoice_metrics():
+    """Retrieves aggregated AP processing metrics and KPI indicators."""
+    return invoice_engine.get_metrics()
+
+
+@app.get('/api/invoice/export/csv')
+def export_invoices_csv():
+    """Exports evaluated AP invoices as an RFC 4180 CSV document."""
+    csv_data = invoice_engine.export_csv()
+    return Response(
+        content=csv_data,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=flowpilot_ap_invoices.csv"}
+    )
+
+
+@app.get('/api/invoice/export/json')
+def export_invoices_json():
+    """Exports evaluated AP invoices and complete audit histories in JSON format."""
+    return invoice_engine.export_json()
+
+
+@app.post('/api/invoice/reset')
+def reset_invoice_state():
+    """Resets evaluated invoices and duplicate registry in memory."""
+    invoice_engine.reset_state()
+    return {"status": "ok", "message": "AP Invoice engine state has been reset."}
+
+
+@app.post('/api/invoice/load-samples')
+def load_sample_invoices():
+    """Loads and evaluates the benchmark sample PDF invoices."""
+    sample_dir = ROOT / 'data' / 'sample_invoices'
+    results = []
+    if sample_dir.exists():
+        for pdf_path in sorted(sample_dir.glob('*.pdf')):
+            try:
+                raw_bytes = pdf_path.read_bytes()
+                inv_data = invoice_engine.extract_from_pdf_bytes(raw_bytes, pdf_path.name)
+                res = invoice_engine.evaluate_invoice(inv_data)
+                results.append(res)
+            except Exception as e:
+                pass
+    return {
+        "status": "ok",
+        "loaded_count": len(results),
+        "results": results
+    }
+
+
+@app.post('/api/invoice/config/tolerance')
+def configure_tolerance(config: ToleranceConfig):
+    """Configures arithmetic and price variance tolerance levels."""
+    from decimal import Decimal
+    invoice_engine.rounding_tolerance = Decimal(str(config.rounding_tolerance))
+    return {
+        "status": "ok",
+        "rounding_tolerance": float(invoice_engine.rounding_tolerance)
+    }
+
+
+@app.get('/api/invoice/{invoice_id}')
+def get_invoice_evaluation(invoice_id: str):
+    """Retrieves full evaluation details, checks, rule breakdown, and audit trail for an invoice."""
+    inv = invoice_engine.get_invoice(invoice_id)
+    if not inv:
+        raise HTTPException(404, f"Invoice evaluation '{invoice_id}' not found.")
+    return inv
+
+
+@app.post('/api/invoice/{invoice_id}/review')
+def apply_reviewer_action(invoice_id: str, action_req: ReviewerActionRequest):
+    """
+    Applies human reviewer action with audit trail recording.
+    System decision is preserved immutably.
+    """
+    try:
+        updated = invoice_engine.apply_reviewer_action(invoice_id, action_req)
+        return updated
+    except KeyError:
+        raise HTTPException(404, f"Invoice evaluation '{invoice_id}' not found.")
+    except Exception as e:
+        raise HTTPException(400, f"Failed to record reviewer action: {str(e)}")
 
 
 # Mount static web UI assets

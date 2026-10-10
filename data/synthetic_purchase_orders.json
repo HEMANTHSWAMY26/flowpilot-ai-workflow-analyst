@@ -1,0 +1,199 @@
+[
+  {
+    "po_number": "PO-8001",
+    "vendor_name": "Apex Cloud Systems Inc",
+    "currency": "USD",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Cloud Compute Node",
+        "quantity": 2.0,
+        "unit_price": 750.00,
+        "total_price": 1500.00
+      },
+      {
+        "line_number": 2,
+        "description": "Premium Support Tier",
+        "quantity": 1.0,
+        "unit_price": 1000.00,
+        "total_price": 1000.00
+      }
+    ],
+    "subtotal": 2500.00,
+    "tax_amount": 0.00,
+    "total_amount": 2500.00,
+    "created_at": "2026-01-15T09:00:00Z"
+  },
+  {
+    "po_number": "PO-8002",
+    "vendor_name": "Nova Office Supplies Ltd",
+    "currency": "USD",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Ergonomic Mesh Chair",
+        "quantity": 3.0,
+        "unit_price": 150.00,
+        "total_price": 450.00
+      }
+    ],
+    "subtotal": 450.00,
+    "tax_amount": 0.00,
+    "total_amount": 450.00,
+    "created_at": "2026-01-18T10:30:00Z"
+  },
+  {
+    "po_number": "PO-8003",
+    "vendor_name": "Vertex Data Labs",
+    "currency": "EUR",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "GPU Cluster Reservation",
+        "quantity": 1.0,
+        "unit_price": 3200.00,
+        "total_price": 3200.00
+      }
+    ],
+    "subtotal": 3200.00,
+    "tax_amount": 0.00,
+    "total_amount": 3200.00,
+    "created_at": "2026-01-20T11:00:00Z"
+  },
+  {
+    "po_number": "PO-8004",
+    "vendor_name": "CyberShield Security LLC",
+    "currency": "USD",
+    "status": "CLOSED",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "SOC 2 Type II Annual Audit",
+        "quantity": 1.0,
+        "unit_price": 5000.00,
+        "total_price": 5000.00
+      }
+    ],
+    "subtotal": 5000.00,
+    "tax_amount": 0.00,
+    "total_amount": 5000.00,
+    "created_at": "2025-12-10T08:00:00Z"
+  },
+  {
+    "po_number": "PO-8005",
+    "vendor_name": "Global Logistics Direct",
+    "currency": "USD",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Freight Express Shipping",
+        "quantity": 4.0,
+        "unit_price": 350.00,
+        "total_price": 1400.00
+      }
+    ],
+    "subtotal": 1400.00,
+    "tax_amount": 0.00,
+    "total_amount": 1400.00,
+    "created_at": "2026-01-22T14:15:00Z"
+  },
+  {
+    "po_number": "PO-8006",
+    "vendor_name": "Quantum Hardware Corp",
+    "currency": "USD",
+    "status": "CANCELLED",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Quantum Dev Kit",
+        "quantity": 1.0,
+        "unit_price": 12000.00,
+        "total_price": 12000.00
+      }
+    ],
+    "subtotal": 12000.00,
+    "tax_amount": 0.00,
+    "total_amount": 12000.00,
+    "created_at": "2026-01-05T16:00:00Z"
+  },
+  {
+    "po_number": "PO-8007",
+    "vendor_name": "DevPulse Software Inc",
+    "currency": "USD",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "CI/CD Pipeline Runner License",
+        "quantity": 10.0,
+        "unit_price": 80.00,
+        "total_price": 800.00
+      }
+    ],
+    "subtotal": 800.00,
+    "tax_amount": 80.00,
+    "total_amount": 880.00,
+    "created_at": "2026-01-28T09:45:00Z"
+  },
+  {
+    "po_number": "PO-8008",
+    "vendor_name": "Alpha Marketing Services",
+    "currency": "USD",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Q1 Digital Campaign Setup",
+        "quantity": 1.0,
+        "unit_price": 4200.00,
+        "total_price": 4200.00
+      }
+    ],
+    "subtotal": 4200.00,
+    "tax_amount": 0.00,
+    "total_amount": 4200.00,
+    "created_at": "2026-02-01T13:30:00Z"
+  },
+  {
+    "po_number": "PO-8009",
+    "vendor_name": "Nexus Hardware Systems",
+    "currency": "USD",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Enterprise Rack Server Node",
+        "quantity": 2.0,
+        "unit_price": 2200.00,
+        "total_price": 4400.00
+      }
+    ],
+    "subtotal": 4400.00,
+    "tax_amount": 0.00,
+    "total_amount": 4400.00,
+    "created_at": "2026-02-05T15:20:00Z"
+  },
+  {
+    "po_number": "PO-8010",
+    "vendor_name": "BioTech Research Supplies",
+    "currency": "USD",
+    "status": "OPEN",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Lab Consumables Kit A",
+        "quantity": 5.0,
+        "unit_price": 300.00,
+        "total_price": 1500.00
+      }
+    ],
+    "subtotal": 1500.00,
+    "tax_amount": 0.00,
+    "total_amount": 1500.00,
+    "created_at": "2026-02-10T11:10:00Z"
+  }
+]

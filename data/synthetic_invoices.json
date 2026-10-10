@@ -1,0 +1,219 @@
+[
+  {
+    "invoice_number": "INV-2026-001",
+    "vendor_name": "Apex Cloud Systems Inc",
+    "po_number": "PO-8001",
+    "currency": "USD",
+    "invoice_date": "2026-01-20",
+    "due_date": "2026-02-20",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Cloud Compute Node",
+        "quantity": 2.0,
+        "unit_price": 750.00,
+        "total_price": 1500.00
+      },
+      {
+        "line_number": 2,
+        "description": "Premium Support Tier",
+        "quantity": 1.0,
+        "unit_price": 1000.00,
+        "total_price": 1000.00
+      }
+    ],
+    "subtotal": 2500.00,
+    "tax_amount": 0.00,
+    "total_amount": 2500.00,
+    "notes": "Standard clean matching invoice against PO-8001"
+  },
+  {
+    "invoice_number": "INV-2026-002",
+    "vendor_name": "Global Logistics Direct",
+    "po_number": "PO-8005",
+    "currency": "USD",
+    "invoice_date": "2026-01-24",
+    "due_date": "2026-02-24",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Freight Express Shipping",
+        "quantity": 4.0,
+        "unit_price": 350.00,
+        "total_price": 1400.00
+      }
+    ],
+    "subtotal": 1400.00,
+    "tax_amount": 0.00,
+    "total_amount": 1400.00,
+    "notes": "Standard clean matching logistics invoice against PO-8005"
+  },
+  {
+    "invoice_number": "INV-2026-003",
+    "vendor_name": "Nova Office Supplies Ltd",
+    "po_number": "PO-8002",
+    "currency": "USD",
+    "invoice_date": "2026-01-25",
+    "due_date": "2026-02-25",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Ergonomic Mesh Chair",
+        "quantity": 3.0,
+        "unit_price": 180.00,
+        "total_price": 540.00
+      }
+    ],
+    "subtotal": 540.00,
+    "tax_amount": 0.00,
+    "total_amount": 540.00,
+    "notes": "Unit price variance ($180 vs $150 on PO-8002)"
+  },
+  {
+    "invoice_number": "INV-2026-004",
+    "vendor_name": "BioTech Research Supplies",
+    "po_number": "PO-8010",
+    "currency": "USD",
+    "invoice_date": "2026-02-12",
+    "due_date": "2026-03-12",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Lab Consumables Kit A",
+        "quantity": 7.0,
+        "unit_price": 300.00,
+        "total_price": 2100.00
+      }
+    ],
+    "subtotal": 2100.00,
+    "tax_amount": 0.00,
+    "total_amount": 2100.00,
+    "notes": "Quantity variance (7 invoiced vs 5 on PO-8010)"
+  },
+  {
+    "invoice_number": "INV-2026-005",
+    "vendor_name": "DevPulse Software Inc",
+    "po_number": "PO-8007",
+    "currency": "USD",
+    "invoice_date": "2026-02-18",
+    "due_date": "2026-03-18",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "CI/CD Pipeline Runner License",
+        "quantity": 10.0,
+        "unit_price": 80.00,
+        "total_price": 800.00
+      }
+    ],
+    "subtotal": 800.00,
+    "tax_amount": 80.00,
+    "total_amount": 990.00,
+    "notes": "Arithmetic mismatch: 800 + 80 != 990"
+  },
+  {
+    "invoice_number": "INV-2026-006",
+    "vendor_name": "CyberShield Security LLC",
+    "po_number": "PO-8004",
+    "currency": "USD",
+    "invoice_date": "2026-02-01",
+    "due_date": "2026-03-01",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "SOC 2 Type II Annual Audit",
+        "quantity": 1.0,
+        "unit_price": 5000.00,
+        "total_price": 5000.00
+      }
+    ],
+    "subtotal": 5000.00,
+    "tax_amount": 0.00,
+    "total_amount": 5000.00,
+    "notes": "PO-8004 is CLOSED in purchase order ledger"
+  },
+  {
+    "invoice_number": "INV-2026-007",
+    "vendor_name": "Quantum Hardware Corp",
+    "po_number": "PO-8006",
+    "currency": "USD",
+    "invoice_date": "2026-01-10",
+    "due_date": "2026-02-10",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Quantum Dev Kit",
+        "quantity": 1.0,
+        "unit_price": 12000.00,
+        "total_price": 12000.00
+      }
+    ],
+    "subtotal": 12000.00,
+    "tax_amount": 0.00,
+    "total_amount": 12000.00,
+    "notes": "PO-8006 is CANCELLED"
+  },
+  {
+    "invoice_number": "INV-2026-008",
+    "vendor_name": "Vertex Data Labs",
+    "po_number": "PO-8003",
+    "currency": "USD",
+    "invoice_date": "2026-01-22",
+    "due_date": "2026-02-22",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "GPU Cluster Reservation",
+        "quantity": 1.0,
+        "unit_price": 3200.00,
+        "total_price": 3200.00
+      }
+    ],
+    "subtotal": 3200.00,
+    "tax_amount": 0.00,
+    "total_amount": 3200.00,
+    "notes": "Currency mismatch: Invoice is in USD but PO-8003 is in EUR"
+  },
+  {
+    "invoice_number": "INV-2026-009",
+    "vendor_name": "City Facility Maintenance Inc",
+    "po_number": null,
+    "currency": "USD",
+    "invoice_date": "2026-02-14",
+    "due_date": "2026-03-14",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "HVAC Emergency Filter Replacement",
+        "quantity": 1.0,
+        "unit_price": 650.00,
+        "total_price": 650.00
+      }
+    ],
+    "subtotal": 650.00,
+    "tax_amount": 0.00,
+    "total_amount": 650.00,
+    "notes": "Missing PO number; requires analyst routing"
+  },
+  {
+    "invoice_number": "INV-2026-010",
+    "vendor_name": "Alpha Marketing Services",
+    "po_number": "PO-9999",
+    "currency": "USD",
+    "invoice_date": "2026-02-05",
+    "due_date": "2026-03-05",
+    "line_items": [
+      {
+        "line_number": 1,
+        "description": "Q1 Digital Campaign Setup",
+        "quantity": 1.0,
+        "unit_price": 4200.00,
+        "total_price": 4200.00
+      }
+    ],
+    "subtotal": 4200.00,
+    "tax_amount": 0.00,
+    "total_amount": 4200.00,
+    "notes": "Non-existent PO number PO-9999"
+  }
+]
